@@ -8,7 +8,26 @@ end
 
 RegisterServerEvent('esx_firejob:revive')
 AddEventHandler('esx_firejob:revive', function(target)
-  TriggerClientEvent('esx_firejob:revive', target)
+
+local xPlayer = ESX.GetPlayerFromId(source)
+local job = xPlayer.job.name
+local grade = xPlayer.job.grade
+
+if job == 'fire' and grade == 0 then
+	xPlayer.addAccountMoney('bank', Config.ReviveRewardGrade0)
+	TriggerClientEvent('esx_firejob:revive', target)
+	elseif job == 'fire' and grade == 1 then
+		xPlayer.addAccountMoney('bank', Config.ReviveRewardGrade1)
+	TriggerClientEvent('esx_firejob:revive', target)
+	elseif job == 'fire' and grade == 2 then
+		xPlayer.addAccountMoney('bank', Config.ReviveRewardGrade2)
+	TriggerClientEvent('esx_firejob:revive', target)
+	elseif job == 'fire' and grade == 3 then
+		xPlayer.addAccountMoney('bank', Config.ReviveRewardGrade3)
+	TriggerClientEvent('esx_firejob:revive', target)
+	else
+		print(('esx_firjob: %s attempted to revive!'):format(xPlayer.identifier))
+	end
 end)
 
 TriggerEvent('esx_phone:registerNumber', 'fire', _U('alert_fire'), true, true)
