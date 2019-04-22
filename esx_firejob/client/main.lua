@@ -593,14 +593,17 @@ function OpenFireActionsMenu()
                   TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TEND_TO_DEAD', 0, true)
                   Citizen.Wait(10000)
 				  local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-				  ESX.ShowNotification(_U('revive_complete_award', GetPlayerName(closestPlayer), Config.ReviveReward))
+				  local closestPlayerPed = GetPlayerPed(closestPlayer)
                   ClearPedTasks(playerPed)
 				  
                   if GetEntityHealth(closestPlayerPed) == 0 then
                     TriggerServerEvent('esx_firejob:revive', GetPlayerServerId(player))
-                    --ESX.ShowNotification(_U('revive_complete') .. GetPlayerName(player))
-					
-				  
+                    
+					if Config.ReviveReward > 0 then
+					ESX.ShowNotification(_U('revive_complete_award', GetPlayerName(closestPlayer), Config.ReviveReward))
+					else
+				  ESX.ShowNotification(_U('revive_complete', GetPlayerName(closestPlayer)))
+				  end
 				  else
                     ESX.ShowNotification(GetPlayerName(player) .. _U('isdead'))
                   end
