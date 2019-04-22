@@ -10,10 +10,12 @@ end
 RegisterServerEvent('esx_firejob:revive')
 AddEventHandler('esx_firejob:revive', function(target)
 local xPlayer = ESX.GetPlayerFromId(source)
+local targetXPlayer = ESX.GetPlayerFromId(target)
 local job = xPlayer.job.name
 
 if job == 'fire' then
 		xPlayer.addAccountMoney('bank', Config.ReviveReward)
+		targetXPlayer.removeAccountMoney('bank', Config.ReviveReward)
 		TriggerClientEvent('esx_firejob:revive', target)
 	else
 		print(('esx_firjob: %s attempted to revive!'):format(xPlayer.identifier))

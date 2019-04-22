@@ -598,12 +598,8 @@ function OpenFireActionsMenu()
 				  
                   if GetEntityHealth(closestPlayerPed) == 0 then
                     TriggerServerEvent('esx_firejob:revive', GetPlayerServerId(player))
-                    
-					if Config.ReviveReward > 0 then
-					ESX.ShowNotification(_U('revive_complete_award', GetPlayerName(closestPlayer), Config.ReviveReward))
-					else
-				  ESX.ShowNotification(_U('revive_complete', GetPlayerName(closestPlayer)))
-				  end
+					ESX.ShowNotification(_U('revive_reward', Config.ReviveReward))
+
 				  else
                     ESX.ShowNotification(GetPlayerName(player) .. _U('isdead'))
                   end
@@ -1605,6 +1601,8 @@ AddEventHandler('esx_firejob:revive', function()
     StopScreenEffect('DeathFailOut')
 
     DoScreenFadeIn(800)
+
+	ESX.ShowNotification(_U('revive_fine_paid', Config.ReviveReward, GetPlayerName(closestPlayer)))
 
   end)
 

@@ -144,7 +144,8 @@ Locales['en'] = {
     -- Action Menu
   ['revive_inprogress'] = 'a revive is in progress!',
   ['revive_complete'] = 'you have revived ~y~%s~s~',
-  ['revive_complete_award'] = 'you have revived ~y~%s~s~ and earned ~g~$%s~s~!',
+  ['revive_reward'] = '~y~Automatic Payment:~s~ ~r~Fire & Rescue Medical Treatment Fee~s~ ~g~+$%s~s~',
+  ['revive_fine_paid'] = '~y~Automatic Payment:~s~ You have paid a Medical Treatment Fee of ~g~$%s~s~ to ~r~Fire & Rescue~s~',
   ['heal_inprogress'] = 'you are healing!',
   ['heal_complete'] = 'you have healed ~y~%s~s~',
   ['no_players'] = 'no players nearby',
