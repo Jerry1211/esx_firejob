@@ -9,12 +9,9 @@ Config.EnableESXIdentity          = true -- only turn this on if you are using e
 Config.EnableNonFreemodePeds      = true -- turn this on if you want custom peds
 Config.EnableSocietyOwnedVehicles = false
 Config.EnableLicenses             = true
-Config.ReviveRewardGrade0         = 550  -- revive reward -Recruit set to 0 if you don't want it enabled
-Config.ReviveRewardGrade1         = 750  -- revive reward -Sergeant
-Config.ReviveRewardGrade2         = 950  -- revive reward -Lieutenant
-Config.ReviveRewardGrade3         = 1200  -- revive reward -Commander
+Config.ReviveReward        		  = 550  -- revive reward set to 0 if you don't want it enabled
 Config.MaxInService               = -1
-Config.Locale                     = 'fr'
+Config.Locale                     = 'en'
 
 Config.FireStations = {
 

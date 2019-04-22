@@ -37,9 +37,9 @@ end)
 function SetVehicleMaxMods(vehicle)
 
   local props = {
-    modEngine       = 2,
-    modBrakes       = 2,
-    modTransmission = 2,
+    modEngine       = 3,
+    modBrakes       = 3,
+    modTransmission = 3,
     modSuspension   = 3,
     modTurbo        = true,
   }
@@ -496,6 +496,8 @@ function OpenFireActionsMenu()
               {label = _U('put_in_vehicle'),  value = 'put_in_vehicle'},
               {label = _U('out_the_vehicle'), value = 'out_the_vehicle'},
               {label = _U('fine'),            value = 'fine'},
+			  {label = _U('ems_menu_small'),            value = 'small'},
+			  {label = _U('ems_menu_big'),            value = 'big'},
               {label = _U('fire_menu_revive'),             value = 'revive'}
             },
           },
@@ -517,10 +519,6 @@ function OpenFireActionsMenu()
                 TriggerServerEvent('esx_firejob:drag', GetPlayerServerId(player))
               end
 
-              if data2.current.value == 'put_in_vehicle' then
-                TriggerServerEvent('esx_firejob:putInVehicle', GetPlayerServerId(player))
-              end
-
               if data2.current.value == 'out_the_vehicle' then
                   TriggerServerEvent('esx_firejob:OutVehicle', GetPlayerServerId(player))
               end
@@ -529,6 +527,52 @@ function OpenFireActionsMenu()
                 OpenFineMenu(player)
               end
 
+              if data2.current.value == 'small' then
+                ESX.TriggerServerCallback('esx_firejob:getItemAmount', function(quantity)
+				if quantity > 0 then
+					local closestPlayerPed = GetPlayerPed(closestPlayer)
+					local health = GetEntityHealth(closestPlayerPed)
+				if health > 0 then
+					local playerPed = PlayerPedId()
+						ESX.ShowNotification(_U('heal_inprogress'))
+						TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TEND_TO_DEAD', 0, true)
+						Citizen.Wait(10000)
+						ClearPedTasks(playerPed)
+						TriggerServerEvent('esx_firejob:removeItem', 'bandage')
+						TriggerServerEvent('esx_firejob:heal', GetPlayerServerId(closestPlayer), 'small')
+						ESX.ShowNotification(_U('heal_complete', GetPlayerName(closestPlayer)))
+					else
+						ESX.ShowNotification(_U('player_not_conscious'))
+						end
+					else
+						ESX.ShowNotification(_U('not_enough_bandage'))
+					end
+				end, 'bandage')			
+              end
+
+              if data2.current.value == 'big' then
+                ESX.TriggerServerCallback('esx_firejob:getItemAmount', function(quantity)
+				if quantity > 0 then
+					local closestPlayerPed = GetPlayerPed(closestPlayer)
+					local health = GetEntityHealth(closestPlayerPed)
+				if health > 0 then
+					local playerPed = PlayerPedId()
+					ESX.ShowNotification(_U('heal_inprogress'))
+					TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_KNEEL', 0, true)
+					Citizen.Wait(10000)
+					ClearPedTasks(playerPed)		
+					TriggerServerEvent('esx_firejob:removeItem', 'medikit')
+					TriggerServerEvent('esx_firejob:heal', GetPlayerServerId(closestPlayer), 'big')
+					ESX.ShowNotification(_U('heal_complete', GetPlayerName(closestPlayer)))		
+					else
+						ESX.ShowNotification(_U('player_not_conscious'))
+						end
+					else
+						ESX.ShowNotification(_U('not_enough_medikit'))
+					end	
+				end, 'bandage')	
+			  end
+	
               if data2.current.value == 'revive' then
                 menu.close()
 
@@ -547,11 +591,12 @@ function OpenFireActionsMenu()
                   TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TEND_TO_DEAD', 0, true)
                   Citizen.Wait(10000)
                   ClearPedTasks(playerPed)
-
+				  
                   if GetEntityHealth(closestPlayerPed) == 0 then
                     TriggerServerEvent('esx_firejob:revive', GetPlayerServerId(player))
                     ESX.ShowNotification(_U('revive_complete') .. GetPlayerName(player))
-                  else
+				  
+				  else
                     ESX.ShowNotification(GetPlayerName(player) .. _U('isdead'))
                   end
 

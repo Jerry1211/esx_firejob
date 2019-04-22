@@ -6,28 +6,25 @@ if Config.MaxInService ~= -1 then
   TriggerEvent('esx_service:activateService', 'fire', Config.MaxInService)
 end
 
+
 RegisterServerEvent('esx_firejob:revive')
 AddEventHandler('esx_firejob:revive', function(target)
-
 local xPlayer = ESX.GetPlayerFromId(source)
 local job = xPlayer.job.name
-local grade = xPlayer.job.grade
 
-if job == 'fire' and grade == 0 then
-	xPlayer.addAccountMoney('bank', Config.ReviveRewardGrade0)
-	TriggerClientEvent('esx_firejob:revive', target)
-	elseif job == 'fire' and grade == 1 then
-		xPlayer.addAccountMoney('bank', Config.ReviveRewardGrade1)
-	TriggerClientEvent('esx_firejob:revive', target)
-	elseif job == 'fire' and grade == 2 then
-		xPlayer.addAccountMoney('bank', Config.ReviveRewardGrade2)
-	TriggerClientEvent('esx_firejob:revive', target)
-	elseif job == 'fire' and grade == 3 then
-		xPlayer.addAccountMoney('bank', Config.ReviveRewardGrade3)
-	TriggerClientEvent('esx_firejob:revive', target)
+if job == 'fire' then
+		xPlayer.addAccountMoney('bank', Config.ReviveReward)
+		TriggerClientEvent('esx_firejob:revive', target)
 	else
 		print(('esx_firjob: %s attempted to revive!'):format(xPlayer.identifier))
 	end
+end)
+
+ESX.RegisterServerCallback('esx_firejob:getItemAmount', function(source, cb, item)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local quantity = xPlayer.getInventoryItem(item).count
+
+	cb(quantity)
 end)
 
 TriggerEvent('esx_phone:registerNumber', 'fire', _U('alert_fire'), true, true)
@@ -98,6 +95,31 @@ end)
 RegisterServerEvent('esx_firejob:OutVehicle')
 AddEventHandler('esx_firejob:OutVehicle', function(target)
     TriggerClientEvent('esx_firejob:OutVehicle', target)
+end)
+
+RegisterServerEvent('esx_firejob:removeItem')
+AddEventHandler('esx_firejob:removeItem', function(item)
+	local _source = source
+	local xPlayer = ESX.GetPlayerFromId(_source)
+
+	xPlayer.removeInventoryItem(item, 1)
+
+	if item == 'bandage' then
+		TriggerClientEvent('esx:showNotification', _source, _U('used_bandage'))
+	elseif item == 'medikit' then
+		TriggerClientEvent('esx:showNotification', _source, _U('used_medikit'))
+	end
+end)
+
+RegisterServerEvent('esx_firejob:heal')
+AddEventHandler('esx_firejob:heal', function(target, type)
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	if xPlayer.job.name == 'fire' then
+		TriggerClientEvent('esx_firejob:heal', target, type)
+	else
+		print(('esx_firejob: %s attempted to heal!'):format(xPlayer.identifier))
+	end
 end)
 
 RegisterServerEvent('esx_firejob:getStockItem')

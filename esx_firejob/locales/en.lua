@@ -23,7 +23,8 @@ Locales['en'] = {
   ['vehicle_interaction'] = 'vehicle Interaction',
   ['object_spawner'] = 'object Spawner',
   ['animations'] = 'animations',
-
+  ['ems_menu_small'] = 'heal small wounds (Bandage)',
+  ['ems_menu_big'] = 'treat serious injuries(Medkit)',
   ['id_card'] = 'iD Card',
   ['search'] = 'search',
   ['handcuff'] = 'cuff / Uncuff',
@@ -32,7 +33,6 @@ Locales['en'] = {
   ['out_the_vehicle'] = 'take out of vehicle',
   ['fine'] = 'fine',
   ['no_players_nearby'] = 'no players nearby',
-
   ['vehicle_info'] = 'vehicle Info',
   ['pick_lock'] = 'lockpick Vehicle',
   ['vehicle_unlocked'] = 'vehicle ~g~Unlocked~s~',
@@ -131,7 +131,13 @@ Locales['en'] = {
   ['police4'] = 'unmarked Vehicle',
   ['policeb'] = 'motorcycle',
   ['policet'] = 'transport Van',
-  -- Revive
+    -- Item
+  ['used_medikit'] = 'You have used ~y~1x~s~ medikit',
+  ['used_bandage'] = 'You have used ~y~1x~s~ bandage',
+  ['not_enough_medikit'] = 'You do not have ~b~medikit~s~.',
+  ['not_enough_bandage'] = 'You do not have ~b~bandage~s~.',
+  ['healed'] = 'you have been treated.',
+   -- Revive
   ['revive_inprogress'] = 'revive in progress',
   ['revive_complete'] = 'you have been revived ',
   ['isdead'] = 'is dead',
