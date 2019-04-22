@@ -118,18 +118,18 @@ AddEventHandler('esx_firejob:removeItem', function(item)
 
 	if item == 'bandage' then
 		TriggerClientEvent('esx:showNotification', _source, _U('used_bandage'))
-	elseif item == 'medikit' then
-		TriggerClientEvent('esx:showNotification', _source, _U('used_medikit'))
+	elseif item == 'medkit' then
+		TriggerClientEvent('esx:showNotification', _source, _U('used_medkit'))
 	end
 end)
 
-ESX.RegisterUsableItem('medikit', function(source)
+ESX.RegisterUsableItem('medkit', function(source)
 	if not playersHealing[source] then
 		local xPlayer = ESX.GetPlayerFromId(source)
-		xPlayer.removeInventoryItem('medikit', 1)
+		xPlayer.removeInventoryItem('medkit', 1)
 	
 		playersHealing[source] = true
-		TriggerClientEvent('esx_firejob:useItem', source, 'medikit')
+		TriggerClientEvent('esx_firejob:useItem', source, 'medkit')
 
 		Citizen.Wait(10000)
 		playersHealing[source] = nil

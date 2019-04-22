@@ -132,9 +132,9 @@ Locales['en'] = {
   ['policeb'] = 'motorcycle',
   ['policet'] = 'transport Van',
     -- Item
-  ['used_medikit'] = 'You have used ~y~1x~s~ medikit',
+  ['used_medkit'] = 'You have used ~y~1x~s~ medkit',
   ['used_bandage'] = 'You have used ~y~1x~s~ bandage',
-  ['not_enough_medikit'] = 'You do not have ~b~medikit~s~.',
+  ['not_enough_medkit'] = 'You do not have ~b~medkit~s~.',
   ['not_enough_bandage'] = 'You do not have ~b~bandage~s~.',
   ['healed'] = 'you have been treated.',
    -- Revive
