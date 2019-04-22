@@ -138,9 +138,17 @@ Locales['en'] = {
   ['not_enough_bandage'] = 'You do not have ~b~bandage~s~.',
   ['healed'] = 'you have been treated.',
    -- Revive
-  ['revive_inprogress'] = 'revive in progress',
-  ['revive_complete'] = 'you have been revived ',
   ['isdead'] = 'is dead',
   ['unconscious'] = 'is not unconscious',
   ['fire_menu_revive'] = 'Revive Player',
+    -- Action Menu
+  ['revive_inprogress'] = 'a revive is in progress!',
+  ['revive_complete'] = 'you have revived ~y~%s~s~',
+  ['revive_complete_award'] = 'you have revived ~y~%s~s~ and earned ~g~$%s~s~!',
+  ['heal_inprogress'] = 'you are healing!',
+  ['heal_complete'] = 'you have healed ~y~%s~s~',
+  ['no_players'] = 'no players nearby',
+  ['no_vehicles'] = 'no vehicles nearby',
+  ['player_not_unconscious'] = 'that player is not unconscious!',
+  ['player_not_conscious'] = 'that player is not conscious!',
 }

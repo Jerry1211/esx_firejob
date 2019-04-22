@@ -534,6 +534,7 @@ function OpenFireActionsMenu()
 					local health = GetEntityHealth(closestPlayerPed)
 				if health > 0 then
 					local playerPed = PlayerPedId()
+					local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 						ESX.ShowNotification(_U('heal_inprogress'))
 						TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TEND_TO_DEAD', 0, true)
 						Citizen.Wait(10000)
@@ -557,6 +558,7 @@ function OpenFireActionsMenu()
 					local health = GetEntityHealth(closestPlayerPed)
 				if health > 0 then
 					local playerPed = PlayerPedId()
+					local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 					ESX.ShowNotification(_U('heal_inprogress'))
 					TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_KNEEL', 0, true)
 					Citizen.Wait(10000)
@@ -590,11 +592,14 @@ function OpenFireActionsMenu()
 
                   TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TEND_TO_DEAD', 0, true)
                   Citizen.Wait(10000)
+				  local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+				  ESX.ShowNotification(_U('revive_complete_award', GetPlayerName(closestPlayer), Config.ReviveReward))
                   ClearPedTasks(playerPed)
 				  
                   if GetEntityHealth(closestPlayerPed) == 0 then
                     TriggerServerEvent('esx_firejob:revive', GetPlayerServerId(player))
-                    ESX.ShowNotification(_U('revive_complete') .. GetPlayerName(player))
+                    --ESX.ShowNotification(_U('revive_complete') .. GetPlayerName(player))
+					
 				  
 				  else
                     ESX.ShowNotification(GetPlayerName(player) .. _U('isdead'))
@@ -1483,6 +1488,26 @@ AddEventHandler('esx_firejob:drag', function(cop)
   IsDragged = not IsDragged
   CopPed = tonumber(cop)
 end)
+
+
+RegisterNetEvent('esx_firejob:heal')
+AddEventHandler('esx_firejob:heal', function(healType, quiet)
+	local playerPed = PlayerPedId()
+	local maxHealth = GetEntityMaxHealth(playerPed)
+
+	if healType == 'small' then
+		local health = GetEntityHealth(playerPed)
+		local newHealth = math.min(maxHealth, math.floor(health + maxHealth / 8))
+		SetEntityHealth(playerPed, newHealth)
+	elseif healType == 'big' then
+		SetEntityHealth(playerPed, maxHealth)
+	end
+
+	if not quiet then
+		ESX.ShowNotification(_U('healed'))
+	end
+end)
+
 
 Citizen.CreateThread(function()
   while true do

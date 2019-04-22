@@ -1,11 +1,11 @@
 ESX = nil
+local playersHealing = {}
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 if Config.MaxInService ~= -1 then
   TriggerEvent('esx_service:activateService', 'fire', Config.MaxInService)
 end
-
 
 RegisterServerEvent('esx_firejob:revive')
 AddEventHandler('esx_firejob:revive', function(target)
@@ -19,6 +19,18 @@ if job == 'fire' then
 		print(('esx_firjob: %s attempted to revive!'):format(xPlayer.identifier))
 	end
 end)
+
+RegisterServerEvent('esx_firejob:heal')
+AddEventHandler('esx_firejob:heal', function(target, type)
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	if xPlayer.job.name == 'fire' then
+		TriggerClientEvent('esx_firejob:heal', target, type)
+	else
+		print(('esx_firejob: %s attempted to heal!'):format(xPlayer.identifier))
+	end
+end)
+
 
 ESX.RegisterServerCallback('esx_firejob:getItemAmount', function(source, cb, item)
 	local xPlayer = ESX.GetPlayerFromId(source)
@@ -111,16 +123,32 @@ AddEventHandler('esx_firejob:removeItem', function(item)
 	end
 end)
 
-RegisterServerEvent('esx_firejob:heal')
-AddEventHandler('esx_firejob:heal', function(target, type)
-	local xPlayer = ESX.GetPlayerFromId(source)
+ESX.RegisterUsableItem('medikit', function(source)
+	if not playersHealing[source] then
+		local xPlayer = ESX.GetPlayerFromId(source)
+		xPlayer.removeInventoryItem('medikit', 1)
+	
+		playersHealing[source] = true
+		TriggerClientEvent('esx_firejob:useItem', source, 'medikit')
 
-	if xPlayer.job.name == 'fire' then
-		TriggerClientEvent('esx_firejob:heal', target, type)
-	else
-		print(('esx_firejob: %s attempted to heal!'):format(xPlayer.identifier))
+		Citizen.Wait(10000)
+		playersHealing[source] = nil
 	end
 end)
+
+ESX.RegisterUsableItem('bandage', function(source)
+	if not playersHealing[source] then
+		local xPlayer = ESX.GetPlayerFromId(source)
+		xPlayer.removeInventoryItem('bandage', 1)
+	
+		playersHealing[source] = true
+		TriggerClientEvent('esx_firejob:useItem', source, 'bandage')
+
+		Citizen.Wait(10000)
+		playersHealing[source] = nil
+	end
+end)
+
 
 RegisterServerEvent('esx_firejob:getStockItem')
 AddEventHandler('esx_firejob:getStockItem', function(itemName, count)
