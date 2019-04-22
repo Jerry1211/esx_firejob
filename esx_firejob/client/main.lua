@@ -563,14 +563,14 @@ function OpenFireActionsMenu()
 					TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_KNEEL', 0, true)
 					Citizen.Wait(10000)
 					ClearPedTasks(playerPed)		
-					TriggerServerEvent('esx_firejob:removeItem', 'medkit')
+					TriggerServerEvent('esx_firejob:removeItem', 'medikit')
 					TriggerServerEvent('esx_firejob:heal', GetPlayerServerId(closestPlayer), 'big')
 					ESX.ShowNotification(_U('heal_complete', GetPlayerName(closestPlayer)))		
 					else
 						ESX.ShowNotification(_U('player_not_conscious'))
 						end
 					else
-						ESX.ShowNotification(_U('not_enough_medkit'))
+						ESX.ShowNotification(_U('not_enough_medikit'))
 					end	
 				end, 'bandage')	
 			  end
